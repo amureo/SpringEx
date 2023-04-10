@@ -1,14 +1,27 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net/nz/thymeleaf/layout">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net/nz/thymeleaf/layout"
+    layout:decorate="~{layouts/layout}">
 
-<head th:replace="fragments/head :: headFragment">
-   <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">spring-boot</title>
+<th:block layout:fragment="css"></th:block>
+<th:block layout:fragment="script">
+    <script type="text/javascript">
+       history.pushState(null, null, location.href);
+       window.onpopstate = function(){
+           history.go(1);
+       }
+    </script>
+</th:block>
+
+<head>
+    <title>보드정보</title>
 </head>
 
-<body>
-    <div class="wrapper">
-        <header th:replace="fragments/header :: headerFragment"></header>
-        <div layout:fragment="content"></div>
+<div th:if=${session.id} layout:fragment="content">
+    <div class="container">
+        <th:block th:include="board/clauseEdit.html"></th:block>
+        <th:block th:include="board/list.html"></th:block>
     </div>
-</body>
+</div>
+
 </html>

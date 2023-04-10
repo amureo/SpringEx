@@ -14,9 +14,14 @@ public class FileListVO {
 	private String seq;
 	public void setContent(String string) {
 		this.content=string;
-		
 	}
 	public void setTitle(String string) {
 		this.title=string;
+	}
+	public void setSeq(String bdSeq) {
+		this.seq=bdSeq;
+	}
+	public void setIsEdit(String string) {
+		this.isEdit=string;
 	}
 }
