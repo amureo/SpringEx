@@ -1,9 +1,15 @@
 package com.co.kr.util;
 
+
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +18,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Component
 public class CommonUtils {
 	
@@ -56,6 +65,31 @@ public class CommonUtils {
 		out.println("<script>alert('"+ alertText +"'); location.href='" + redirectPath + "'</script>");
 		out.flush();
 	}
+	
+	
+	public static String getLocalMacAddress() {
+        String result = "error";
+        
+        
+        try {
+        	Enumeration<NetworkInterface> networkInterfaces = NetworkInterface.getNetworkInterfaces();
+            while (networkInterfaces.hasMoreElements()) {
+                NetworkInterface ni = networkInterfaces.nextElement();
+                byte[] hardwareAddress = ni.getHardwareAddress();
+                if (hardwareAddress != null) {
+                    String[] hexadecimalFormat = new String[hardwareAddress.length];
+                    for (int i = 0; i < hardwareAddress.length; i++) {
+                        hexadecimalFormat[i] = String.format("%02X", hardwareAddress[i]);
+                    }
+                    result=String.join("-", hexadecimalFormat);
+                }
+            }
+        }catch(Exception e) {
+        	
+        }
+        
+        return result;
+     }
 	
 
 }

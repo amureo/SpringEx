@@ -27,6 +27,7 @@ import com.co.kr.domain.BoardFileDomain;
 import com.co.kr.domain.BoardListDomain;
 import com.co.kr.exception.RequestException;
 import com.co.kr.service.UploadService;
+import com.co.kr.util.CommonUtils;
 import com.co.kr.vo.FileListVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -71,6 +72,7 @@ public class FileListController {
 		}
 		mav.addObject("detail", boardListDomain);
 		mav.addObject("files", fileList);
+		mav.addObject("macaddress", CommonUtils.getLocalMacAddress()); //맥주소
 		//System.out.println(fileList);
 
 		//삭제시 사용할 용도
@@ -116,6 +118,7 @@ public class FileListController {
 		mav.addObject("fileLen",fileList.size());
 		
 		mav.setViewName("board/boardEditList.html");
+		mav.addObject("macaddress", CommonUtils.getLocalMacAddress()); //맥주소
 		return mav;
 	}
 	@PostMapping("editSave")
@@ -129,6 +132,7 @@ public class FileListController {
 		fileListVO.setContent(""); //초기화
 		fileListVO.setTitle(""); //초기화
 		mav.setViewName("board/boardList.html");
+		mav.addObject("macaddress", CommonUtils.getLocalMacAddress()); //맥주소
 		return mav;
 	}
 	
@@ -171,6 +175,7 @@ public class FileListController {
 		session.removeAttribute("files"); // 삭제
 		mav = bdListCall();
 		mav.setViewName("board/boardList.html");
+		mav.addObject("macaddress", CommonUtils.getLocalMacAddress()); //맥주소
 		
 		return mav;
 	}
@@ -181,6 +186,7 @@ public class FileListController {
 		ModelAndView mav = new ModelAndView();
 		List<BoardListDomain> items = uploadService.boardList();
 		mav.addObject("items", items);
+		mav.addObject("macaddress", CommonUtils.getLocalMacAddress()); //맥주소
 		return mav;
 	}
 

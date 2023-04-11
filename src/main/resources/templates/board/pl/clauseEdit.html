@@ -7,8 +7,8 @@
     </button>
 </div>
 
-<div class="title" style="color:#00a2be">보드 리스트</div>
-<form role="form" th:object=${fileListVO} th:action="@{editSave}" method="post" enctype="multipart/form-data">
+<div class="title" style="color:#00a2be">노래 수정</div>
+<form role="form" th:object=${item} th:action="@{update}" method="post" enctype="multipart/form-data">
     <div class="section form">
        <table>
         <colgroup>
@@ -17,25 +17,29 @@
         </colgroup>
         <tbody>
             <tr> 
-	            <th>제목</th>
+                <th>노래 제목</th>
                 <td>
-                    <input type="hidden" th:field="*{seq}" />
-                    <input type="hidden" th:field="*{isEdit}"/>
+                    <input type="hidden" th:field="*{idx}"/>
+                    <input type="hidden" th:field="*{ranking}"/>
                     <input type="text" th:field="*{title}" placeholder="제목" required/>
                 </td>
             </tr>
-            
             <tr> 
-               <th>내용</th>
-                <td >
-                   <textarea colspan="2" id="story" th:field="*{content}" placeholder="내용을 적어주세요." rows="5" cols="200" required></textarea>
+                <th>가수</th>
+                <td>
+                    <input type="text" th:field="*{artist}" placeholder="가수" required/>
+                </td>
+            </tr>
+             <tr> 
+                <th>유투브 주소</th>
+                <td>
+                    <input type="text" th:field="*{youtube}" placeholder="유튜브주소 id만" required/>
                 </td>
             </tr>
             <tr> 
-               <th><label for="file">첨부파일</label></th>
+               <th><label for="file">커버이미지</label></th>
                 <td>
-                    <input type="file" id="file" name="files" multiple />
-                    <span style="color: #00a2be" th:text="'*새로 파일첨부시 기존 파일은 삭제됩니다.(첨부된 파일 : '+ ${fileLen} + '개)'"></span>
+                    <input type="file" id="cover" name="cover" />
                 </td>
             </tr>
         </tbody>

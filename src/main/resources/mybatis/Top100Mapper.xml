@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+                        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.co.kr.mapper.Top100Mapper">
+
+	<!--select all-->
+	<select id="getTop100List" resultType="com.co.kr.domain.Top100ListDomain">
+		SELECT idx, ranked_at, song_id,title, ranking,artist,album,youtube
+		FROM jsp.top100 as top 
+		WHERE DATE_FORMAT(ranked_at, '%Y-%m-%d') = DATE_FORMAT( '2023-04-10', '%Y-%m-%d')
+		order by ranking asc;
+	</select>
+</mapper>

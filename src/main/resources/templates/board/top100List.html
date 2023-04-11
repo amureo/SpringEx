@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net/nz/thymeleaf/layout"
+    layout:decorate="~{layouts/layout}">
+
+<th:block layout:fragment="css"></th:block>
+<th:block layout:fragment="script">
+    <script type="text/javascript">
+       history.pushState(null, null, location.href);
+       window.onpopstate = function(){
+           history.go(1);
+       }
+    </script>
+</th:block>
+
+<head>
+    <title>멜론 TOP100</title>
+</head>
+
+<div th:if=${session.id} layout:fragment="content">
+	
+	
+	
+    <div class="container">
+		
+	<h2>멜론 TOP100</h2>
+		<div class="section list">
+    <table>
+        <th:block th:if="${items}">
+            <colgroup>
+                <col style="width: 10%"/>
+                <col style="width: 25%"/>
+                <col style="width: 25%"/>
+                <col style="width: 25%"/>
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>순위</th>
+                    <th>제목</th>
+                    <th>가수</th>
+                    <th>앨범</th>
+                </tr>
+            </thead>
+            
+            <tbody>
+              
+                <tr th:each="item : ${items}">
+                    <td th:text="${item.ranking}"></td>
+                    <td th:text="${item.title}"></td>
+                    <td th:text="${item.artist}"></td>
+                    <td th:text="${item.album}"></td>
+                </tr>
+            </th:block>    
+               
+        </tbody>
+    </table>
+</div>
+    </div>
+</div>
+
+</html>

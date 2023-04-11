@@ -16,6 +16,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.co.kr.domain.BoardListDomain;
 import com.co.kr.domain.LoginDomain;
+import com.co.kr.domain.Top100ListDomain;
+import com.co.kr.service.Top100Service;
 import com.co.kr.service.UploadService;
 import com.co.kr.service.UserService;
 import com.co.kr.util.CommonUtils;
@@ -68,6 +70,7 @@ public class UserController {
 		List<BoardListDomain> items = uploadService.boardList();
 		System.out.println("items ==> "+ items);
 		mav.addObject("items", items);
+		mav.addObject("macaddress", CommonUtils.getLocalMacAddress()); //맥주소
 		
 		mav.setViewName("board/boardList.html"); 
 		
@@ -77,12 +80,17 @@ public class UserController {
 
   // 좌측 메뉴 클릭시 보드화면 이동 (로그인된 상태)
 	@RequestMapping(value = "bdList")
-	public ModelAndView bdList() { 
+	public ModelAndView bdList() {
 		ModelAndView mav = new ModelAndView();
 		List<BoardListDomain> items = uploadService.boardList();
 		System.out.println("items ==> "+ items);
 		mav.addObject("items", items);
+		String macaddress=CommonUtils.getLocalMacAddress();
+		mav.addObject("macaddress", macaddress); //맥주소
 		mav.setViewName("board/boardList.html");
 		return mav; 
 	}
+	
+	
+	
 }

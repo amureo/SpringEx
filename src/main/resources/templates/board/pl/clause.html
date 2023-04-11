@@ -7,8 +7,8 @@
     </button>
 </div>
 
-<div class="title" style="color:#00a2be">보드 리스트</div>
-<form role="form" action="upload" method="post" enctype="multipart/form-data">
+<div class="title" style="color:#00a2be">음악 등록</div>
+<form role="form" action="playList/upload" method="post" enctype="multipart/form-data">
     <div class="section form">
        <table>
         <colgroup>
@@ -17,23 +17,29 @@
         </colgroup>
         <tbody>
             <tr> 
-                <th>제목</th>
+                <th>노래 제목</th>
                 <td>
-                    <input type="hidden" name="seq" placeholder="글번호" required/>
+                    <input type="hidden" name="idx" placeholder="글번호" required/>
+                    <input type="hidden" name="ranking" placeholder="순위" required/>
                     <input type="text" name="title" placeholder="제목" required/>
                 </td>
             </tr>
-            
             <tr> 
-               <th>내용</th>
-                <td >
-                   <textarea colspan="2" id="story" name="content" placeholder="내용을 적어주세요." rows="5" cols="200" required></textarea>
+                <th>가수</th>
+                <td>
+                    <input type="text" name="artist" placeholder="가수" required/>
+                </td>
+            </tr>
+             <tr> 
+                <th>유투브 주소</th>
+                <td>
+                    <input type="text" name="youtube" placeholder="유튜브주소 id만" required/>
                 </td>
             </tr>
             <tr> 
-               <th><label for="file">첨부파일</label></th>
+               <th><label for="file">커버이미지</label></th>
                 <td>
-                    <input type="file" id="file" name="files" multiple />
+                    <input type="file" id="cover" name="cover" />
                 </td>
             </tr>
         </tbody>

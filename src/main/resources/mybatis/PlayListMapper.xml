@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+                        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.co.kr.mapper.PlayListMapper">
+
+	<!--select all-->
+	<select id="getPlayList" resultType="com.co.kr.domain.PlayListDomain">
+		SELECT idx, ranking, title, artist, youtube
+		FROM jsp.pl
+		order by ranking asc;
+	</select>
+	
+	<!--select one-->
+	<select id="detailPlayList" parameterType="hashMap" resultType="com.co.kr.domain.PlayListDomain">
+		SELECT idx, ranking, title, artist, youtube
+		FROM jsp.pl
+		where idx=#{idx}
+	</select>
+	
+	<!--insert-->
+	<insert id="insertPlayList" parameterType="com.co.kr.domain.PlayListDomain">
+        INSERT INTO jsp.pl
+        	(ranking,title,artist,youtube)
+    	VALUES
+    	(
+    		(SELECT count(*) as c from jsp.pl as p)+1,
+            #{title},
+            #{artist},
+            #{youtube}
+        )
+	</insert>
+	
+	<!-- delete -->
+	<delete id="deletePlayList" parameterType="hashMap">
+	   DELETE FROM jsp.pl WHERE idx=#{idx}
+	</delete>
+	
+	<!-- update -->
+    <update id="updatePlayList" parameterType="com.co.kr.domain.PlayListDomain">
+        UPDATE jsp.pl SET
+                title=#{title},
+                artist=#{artist}, 
+                youtube=${youtube} 
+        WHERE idx=#{idx}
+    </update>
+    
+    <!-- ranking update -->
+    <update id="updateRanking">
+        update 
+			(SELECT idx,ROW_NUMBER() OVER (ORDER BY ranking asc) as ranking FROM jsp.pl order by ranking asc) as p2,
+			jsp.pl as p1
+		set
+			p1.ranking=p2.ranking
+		where
+			p1.idx=p2.idx;
+    </update>
+    
+    
+</mapper>
