@@ -6,8 +6,7 @@ import lombok.Data;
 @Data
 @Builder(builderMethodName="builder")
 public class PlayListFileDomain {
-	private Integer bdSeq;
-	private String mbId;
+	private Integer idx;
 	
 	private String upOriginalFileName;
 	private String upNewFileName; //동일 이름 업로드 될 경우

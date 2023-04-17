@@ -1,6 +1,10 @@
 package com.co.kr.controller;
 
 import java.io.IOException;
+import java.nio.file.DirectoryNotEmptyException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 
@@ -8,14 +12,18 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.expression.ParseException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.co.kr.code.Code;
 import com.co.kr.domain.BoardFileDomain;
 import com.co.kr.domain.PlayListDomain;
+import com.co.kr.domain.PlayListView;
+import com.co.kr.exception.RequestException;
 import com.co.kr.service.PlayListService;
 
 @Controller
@@ -27,7 +35,7 @@ public class PlayListController {
 	@RequestMapping(value = "/playList")
 	public ModelAndView openPlayList() {
 		ModelAndView mav = new ModelAndView();
-		List<PlayListDomain> items = playListService.getPlayList();
+		List<PlayListView> items = playListService.getPlayList();
 		System.out.println("items ==> "+ items);
 		mav.addObject("items", items);
 		mav.setViewName("board/playList.html");
@@ -38,8 +46,7 @@ public class PlayListController {
 	@RequestMapping(value = "/playList/upload")
 	public String uploadPlayList(PlayListDomain playListDomain, MultipartHttpServletRequest request, HttpServletRequest httpReq) throws IOException, ParseException{
 		System.out.println("insert items ==> "+ playListDomain);
-		playListService.insertPlayList(playListDomain,request);
-		
+		playListService.insertPlayList(playListDomain,request,httpReq);
 		return "redirect:/playList";
 	}
 
@@ -51,7 +58,6 @@ public class PlayListController {
 		System.out.println("delete idx ==> "+ idx);
 		
 		playListService.deletePlayList(map);
-		
 		return "redirect:/playList";
 	}
 	
@@ -63,8 +69,9 @@ public class PlayListController {
 		System.out.println("detail idx ==> "+ idx);
 		
 		ModelAndView mav = new ModelAndView();
+		
 		//하나파일 가져오기
-		PlayListDomain item=playListService.detailPlayList(map);
+		PlayListView item=playListService.detailPlayList(map);
 		mav.addObject("item",item);
 		mav.setViewName("board/playListDetail.html");
 		return mav;
@@ -73,7 +80,7 @@ public class PlayListController {
 	@RequestMapping(value = "/playList/update")
 	public String updatePlayList(PlayListDomain playListDomain, MultipartHttpServletRequest request, HttpServletRequest httpReq) throws IOException, ParseException{
 		System.out.println("update items ==> "+ playListDomain);
-		playListService.updatePlayList(playListDomain,request);
+		playListService.updatePlayList(playListDomain,request,httpReq);
 		
 		return "redirect:/playList";
 	}

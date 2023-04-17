@@ -27,7 +27,7 @@
                     <td th:text="${item.artist}"></td>
                     <td><a th:href="@{https://www.youtube.com/watch?(v = ${item.youtube})}" target="_blank">링크</a></td>
                     <td>
-						<!--<img id="imgId" th:src="@{${item.cover}}" alt="첨부이미지" height="280" /> -->
+						<img th:if="${item.upFilePath}" id="imgId" th:src="@{${item.upNewFileName}}" alt="첨부이미지" height="50" />
 					</td>
 					<td>
 						<a th:href="@{/playList/delete(idx=${item.idx})}">삭제</a>

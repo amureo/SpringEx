@@ -39,7 +39,9 @@
             <tr> 
                <th><label for="file">커버이미지</label></th>
                 <td>
-                    <input type="file" id="cover" name="cover" />
+                    <input type="file" id="files" name="files" />
+                    <span style="color: #00a2be" th:text="'*새로 파일첨부시 기존 파일은 삭제됩니다.기존 파일 : '"></span>
+					<img th:if="*{upFilePath}" id="imgId" th:src="@{|../*{upNewFileName}|}" alt="첨부이미지" height="50" />
                 </td>
             </tr>
         </tbody>

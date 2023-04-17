@@ -18,7 +18,8 @@
 	</select>
 	
 	<!--insert-->
-	<insert id="insertPlayList" parameterType="com.co.kr.domain.PlayListDomain">
+	<insert id="insertPlayList" parameterType="com.co.kr.domain.PlayListDomain"
+		useGeneratedKeys="true" keyProperty="idx" keyColumn="idx">
         INSERT INTO jsp.pl
         	(ranking,title,artist,youtube)
     	VALUES
@@ -56,4 +57,87 @@
     </update>
     
     
+    <!--insert file-->
+	<insert id="insertPlayListFile" parameterType="com.co.kr.domain.PlayListFileDomain">
+        INSERT INTO jsp.pl_file
+        	(idx,up_original_file_name,up_new_file_name,up_file_path,up_file_size)
+    	VALUES
+    	(
+    		#{idx},
+            #{upOriginalFileName},
+            #{upNewFileName},
+            #{upFilePath},
+            #{upFileSize}
+        )
+	</insert>
+	
+    <!--select all file-->
+	<select id="getAllPlayListFile" resultType="com.co.kr.domain.PlayListFileDomain">
+		SELECT 
+			idx,up_original_file_name,up_new_file_name,up_file_path,up_file_size
+		FROM
+			jsp.pl_file
+	</select>
+	
+    <!--select one file-->
+	<select id="getPlayListFile" resultType="com.co.kr.domain.PlayListFileDomain" parameterType="hashMap">
+		SELECT 
+			idx,up_original_file_name,up_new_file_name,up_file_path,up_file_size
+		FROM
+			jsp.pl_file
+		WHERE
+			idx=#{idx}
+	</select>
+	
+    <!--update file-->
+	<select id="updatePlayListFile" parameterType="com.co.kr.domain.PlayListFileDomain">
+		UPDATE
+			jsp.pl_file
+		SET
+            up_original_file_name=#{upOriginalFileName}, 
+            up_new_file_name=${upNewFileName},
+            up_file_path=${upFilePath},
+            up_file_size=${upFileSize}
+		WHERE
+			idx=#{idx}
+	</select>
+	
+    <!--delete one file-->
+	<select id="deletePlayListFile" parameterType="hashMap">
+		DELETE
+		FROM
+			jsp.pl_file
+		WHERE
+			idx=#{idx}
+	</select>
+	
+	
+	
+    <!-- get all view-->
+	<select id="getViewPlayList" resultType="com.co.kr.domain.PlayListView">
+		SELECT 
+			p.idx, p.ranking, p.title, p.artist, p.youtube,
+			f.up_original_file_name, f.up_new_file_name, f.up_file_path, f.up_file_size
+		FROM
+			jsp.pl as p LEFT OUTER JOIN jsp.pl_file as f
+		ON
+			p.idx=f.idx
+		ORDER BY
+			ranking ASC;
+	</select>
+	
+    <!-- get one view-->
+	<select id="getOneViewPlayList" resultType="com.co.kr.domain.PlayListView" parameterType="hashMap">
+		SELECT 
+			p.idx, p.ranking, p.title, p.artist, p.youtube,
+			f.up_original_file_name, f.up_new_file_name, f.up_file_path, f.up_file_size
+		FROM
+			jsp.pl as p LEFT OUTER JOIN jsp.pl_file as f
+		ON
+			p.idx=f.idx
+		WHERE
+			p.idx=#{idx}
+		ORDER BY
+			ranking ASC;
+	</select>
 </mapper>
