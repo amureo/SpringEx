@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.expression.ParseException;
@@ -33,12 +34,17 @@ public class PlayListController {
 	private PlayListService playListService;
 	
 	@RequestMapping(value = "/playList")
-	public ModelAndView openPlayList() {
+	public ModelAndView openPlayList(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView();
 		List<PlayListView> items = playListService.getPlayList();
 		System.out.println("items ==> "+ items);
 		mav.addObject("items", items);
-		mav.setViewName("board/playList.html");
+
+		// mac
+		HttpSession session = request.getSession();
+		mav.addObject("macaddress", session.getAttribute("mac")); //맥주소
+		
+		mav.setViewName("pl/playList.html");
 		return mav; 
 	}
 	
@@ -62,7 +68,7 @@ public class PlayListController {
 	}
 	
 	@RequestMapping(value = "/playList/detail")
-	public ModelAndView detailPlayList(@RequestParam("idx") String idx){
+	public ModelAndView detailPlayList(@RequestParam("idx") String idx,HttpServletRequest request){
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("idx", Integer.parseInt(idx));
 		
@@ -70,10 +76,15 @@ public class PlayListController {
 		
 		ModelAndView mav = new ModelAndView();
 		
+
+		// mac
+		HttpSession session = request.getSession();
+		mav.addObject("macaddress", session.getAttribute("mac")); //맥주소
+		
 		//하나파일 가져오기
 		PlayListView item=playListService.detailPlayList(map);
 		mav.addObject("item",item);
-		mav.setViewName("board/playListDetail.html");
+		mav.setViewName("pl/playListDetail.html");
 		return mav;
 	}
 

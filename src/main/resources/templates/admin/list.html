@@ -87,7 +87,7 @@
                 </li>
             </th:block>
 
-            <th:block th:switch="${rowNUM} < ${endpage}">
+            <th:block th:switch="${rowNUM} <= ${endpage}">
                 <li th:case="${rowNUM} < ${endpage}" style="display: inline-block">
                     <a class="icon last" th:href="@{mbList(page=${startpage}+10)}"></a>
                 </li>

@@ -70,11 +70,14 @@ public class UserController {
 		session.setAttribute("ip",IP);
 		session.setAttribute("id", loginDomain.getMbId());
 		session.setAttribute("mbLevel", loginDomain.getMbLevel());
+		session.setAttribute("mac", CommonUtils.getLocalMacAddress());
 				
 		List<BoardListDomain> items = uploadService.boardList();
 		System.out.println("items ==> "+ items);
 		mav.addObject("items", items);
-		mav.addObject("macaddress", CommonUtils.getLocalMacAddress()); //맥주소
+		
+		// mac
+		mav.addObject("macaddress", session.getAttribute("mac")); //맥주소
 		
 		mav.setViewName("board/boardList.html"); 
 		
@@ -84,13 +87,16 @@ public class UserController {
 
   // 좌측 메뉴 클릭시 보드화면 이동 (로그인된 상태)
 	@RequestMapping(value = "bdList")
-	public ModelAndView bdList() {
+	public ModelAndView bdList(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView();
 		List<BoardListDomain> items = uploadService.boardList();
 		System.out.println("items ==> "+ items);
 		mav.addObject("items", items);
-		String macaddress=CommonUtils.getLocalMacAddress();
-		mav.addObject("macaddress", macaddress); //맥주소
+		
+		// mac
+		HttpSession session = request.getSession();
+		mav.addObject("macaddress", session.getAttribute("mac")); //맥주소
+		
 		mav.setViewName("board/boardList.html");
 		return mav; 
 	}
@@ -110,6 +116,9 @@ public class UserController {
 			
 			//페이지네이션
 			mav = mbListCall(request);  //리스트만 가져오기
+			
+			// mac
+			mav.addObject("macaddress", session.getAttribute("mac")); //맥주소
 			
 			mav.setViewName("admin/adminList.html");
 			return mav; 
@@ -168,6 +177,7 @@ public class UserController {
 	    public ModelAndView mbModify(@PathVariable("mbSeq") String mbSeq, RedirectAttributes re) throws IOException {
 			ModelAndView mav = new ModelAndView();
 			re.addAttribute("mbSeq", mbSeq);
+			
 			mav.setViewName("redirect:/mbEditList");
 			return mav;
 		};
@@ -183,6 +193,11 @@ public class UserController {
 			Map map = new HashMap<String, String>();
 			map.put("mbSeq", mbSeq);
 			LoginDomain loginDomain = userService.mbSelectList(map);
+
+			// mac
+			HttpSession session = request.getSession();
+			mav.addObject("macaddress", session.getAttribute("mac")); //맥주소
+			
 			mav.addObject("item",loginDomain);
 			mav.setViewName("admin/adminEditList.html");
 			return mav; 

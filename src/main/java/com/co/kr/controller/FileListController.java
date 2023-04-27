@@ -72,7 +72,9 @@ public class FileListController {
 		}
 		mav.addObject("detail", boardListDomain);
 		mav.addObject("files", fileList);
-		mav.addObject("macaddress", CommonUtils.getLocalMacAddress()); //맥주소
+
+		// mac
+		mav.addObject("macaddress", session.getAttribute("mac")); //맥주소
 		//System.out.println(fileList);
 
 		//삭제시 사용할 용도
@@ -118,7 +120,9 @@ public class FileListController {
 		mav.addObject("fileLen",fileList.size());
 		
 		mav.setViewName("board/boardEditList.html");
-		mav.addObject("macaddress", CommonUtils.getLocalMacAddress()); //맥주소
+		
+		// mac
+		mav.addObject("macaddress", session.getAttribute("mac")); //맥주소
 		return mav;
 	}
 	@PostMapping("editSave")
@@ -132,7 +136,11 @@ public class FileListController {
 		fileListVO.setContent(""); //초기화
 		fileListVO.setTitle(""); //초기화
 		mav.setViewName("board/boardList.html");
-		mav.addObject("macaddress", CommonUtils.getLocalMacAddress()); //맥주소
+
+		// mac
+		HttpSession session = request.getSession();
+		mav.addObject("macaddress", session.getAttribute("mac")); //맥주소
+		
 		return mav;
 	}
 	
@@ -173,20 +181,26 @@ public class FileListController {
 
 		//세션해제
 		session.removeAttribute("files"); // 삭제
-		mav = bdListCall();
+		mav = bdListCall(request);
 		mav.setViewName("board/boardList.html");
-		mav.addObject("macaddress", CommonUtils.getLocalMacAddress()); //맥주소
+		
+		// mac
+		mav.addObject("macaddress", session.getAttribute("mac")); //맥주소
 		
 		return mav;
 	}
 
 
 	//리스트 가져오기 따로 함수뺌
-	public ModelAndView bdListCall() {
+	public ModelAndView bdListCall(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView();
 		List<BoardListDomain> items = uploadService.boardList();
 		mav.addObject("items", items);
-		mav.addObject("macaddress", CommonUtils.getLocalMacAddress()); //맥주소
+		
+		// mac
+		HttpSession session = request.getSession();
+		mav.addObject("macaddress", session.getAttribute("mac")); //맥주소
+				
 		return mav;
 	}
 

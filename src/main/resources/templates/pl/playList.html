@@ -14,12 +14,13 @@
 </th:block>
 
 <head>
-    <title>플레이 리스트</title>
+    <title>플레이리스트</title>
 </head>
 
 <div th:if=${session.id} layout:fragment="content">
     <div class="container">
-        <th:block th:include="board/pl/clauseEdit.html"></th:block>
+        <th:block th:include="pl/clause.html"></th:block>
+        <th:block th:include="pl/list.html"></th:block>
     </div>
 </div>
 

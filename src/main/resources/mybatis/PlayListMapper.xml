@@ -40,8 +40,8 @@
     <update id="updatePlayList" parameterType="com.co.kr.domain.PlayListDomain">
         UPDATE jsp.pl SET
                 title=#{title},
-                artist=#{artist}, 
-                youtube=${youtube} 
+                artist=#{artist},
+                youtube=#{youtube}
         WHERE idx=#{idx}
     </update>
     
